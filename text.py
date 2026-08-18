@@ -402,22 +402,20 @@ with st.sidebar.expander("⚙️ Cấu hình file & Chọn Sheet", expanded=Fals
     # Đường dẫn file mặc định của bạn
     DEFAULT_FILENAME = "95078 DLBD 79A HD_Kieu My.xlsx"
 
-    if uploaded_file is not None:
-        excel_file_to_read = uploaded_file
-        st.success("✅ Đang dùng file tải lên.")
-    elif os.path.exists(DEFAULT_FILENAME):
-        excel_file_to_read = DEFAULT_FILENAME
-        st.info(f"📁 Đang dùng file mặc định:\n{DEFAULT_FILENAME}")
+if uploaded_file is not None:
+    excel_file_to_read = uploaded_file
+    st.success("✅ Đang dùng file tải lên.")
+else:
+    import glob
+    # Tự động quét tìm tất cả các file .xlsx có trong thư mục GitHub
+    found_files = glob.glob("*.xlsx")
+    
+    if found_files:
+        excel_file_to_read = found_files[0] # Tự động lấy file Excel đầu tiên tìm thấy
+        st.info(f"📂 Đang dùng file cố định: {excel_file_to_read}")
     else:
-        import glob
-
-        found_files = glob.glob("*95078*")
-        if found_files:
-            excel_file_to_read = found_files[0]
-            st.info(f"📁 Tự động tìm thấy file:\n{excel_file_to_read}")
-        else:
-            st.warning("👋 Vui lòng tải file lên hoặc đặt file Excel vào cùng thư mục.")
-            st.stop()
+        st.warning("👋 Không tìm thấy file Excel nào trong thư mục. Vui lòng kiểm tra lại.")
+        st.stop()
 
     # Xử lý đọc file, chọn Sheet và gọi hàm chuẩn hóa dữ liệu
     try:
