@@ -497,29 +497,29 @@ with tab_ks:
 
     with sub_tab1:
         col_chart1, col_chart2 = st.columns([1, 2])
-with col_chart1:
-    st.markdown('<div class="chart-header">1. Tỷ lệ kết quả giám định</div>', unsafe_allow_html=True)
-    
-    # Tự động tìm cột ĐÁNH GIÁ an toàn (không sợ lệch tên hay khoảng trắng)
-    eval_col = next((col for col in df.columns if 'ĐÁNH GIÁ' in col.upper()), None)
-    
-    if eval_col and eval_col in df.columns:
-        chart_data = df[eval_col].value_counts().reset_index()
-        chart_data.columns = ['Trạng thái', 'Số lượng']
+    with col_chart1:
+        st.markdown('<div class="chart-header">1. Tỷ lệ kết quả giám định</div>', unsafe_allow_html=True)
         
-        fig_pie = px.pie(chart_data, values='Số lượng', names='Trạng thái', color='Trạng thái',
-            color_discrete_map={
-                'Đủ điều kiện thanh toán': '#205AA7',
-                'Không đủ điều kiện thanh toán': '#ff3333',
-                'Chưa xác định': '#cbd5e1'
-            },
-            hole=0.6)
+        # Tự động tìm cột ĐÁNH GIÁ an toàn (không sợ lệch tên hay khoảng trắng)
+        eval_col = next((col for col in df.columns if 'ĐÁNH GIÁ' in col.upper()), None)
         
-        fig_pie.update_layout(showlegend=True, legend=dict(orientation="h", y=-0.2),
-                              margin=dict(t=0, b=0, l=0, r=0))
-        st.plotly_chart(fig_pie, use_container_width=True)
-    else:
-        st.warning("⚠️ Không tìm thấy cột 'ĐÁNH GIÁ' trong file.")
+        if eval_col and eval_col in df.columns:
+            chart_data = df[eval_col].value_counts().reset_index()
+            chart_data.columns = ['Trạng thái', 'Số lượng']
+            
+            fig_pie = px.pie(chart_data, values='Số lượng', names='Trạng thái', color='Trạng thái',
+                color_discrete_map={
+                    'Đủ điều kiện thanh toán': '#205AA7',
+                    'Không đủ điều kiện thanh toán': '#ff3333',
+                    'Chưa xác định': '#cbd5e1'
+                },
+                hole=0.6)
+            
+            fig_pie.update_layout(showlegend=True, legend=dict(orientation="h", y=-0.2),
+                                  margin=dict(t=0, b=0, l=0, r=0))
+            st.plotly_chart(fig_pie, use_container_width=True)
+        else:
+            st.warning("⚠️ Không tìm thấy cột 'ĐÁNH GIÁ' trong file.")
 
             fig_pie.update_layout(showlegend=True, legend=dict(orientation="h", y=-0.2),
                                   margin=dict(t=0, b=0, l=0, r=0))
