@@ -400,7 +400,7 @@ with st.sidebar.expander("⚙️ Cấu hình file & Chọn Sheet", expanded=Fals
     excel_file_to_read = None
 
     # Đường dẫn file mặc định của bạn
-    DEFAULT_FILENAME = r"W:\2026 08\95078 2026 08 DLBD 79aHD_Kieu My.xlsx"
+    DEFAULT_FILENAME = "95078 DLBD 79A HD_Kieu My.xlsx"
 
     if uploaded_file is not None:
         excel_file_to_read = uploaded_file
