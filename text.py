@@ -440,9 +440,6 @@ except Exception as e:
 # ==========================================
 # 4. GIAO DIỆN CHÍNH (Các bảng, biểu đồ, bộ lọc của bạn tiếp tục ở đây)
 # ==========================================
-if df is not None:
-    # Viết tiếp các chức năng chính của bạn tại đây
-    st.dataframe(df)
 # 1. TRƯỜNG HỢP: Người dùng đã tải file lên
 if uploaded_file is not None:
     try:
