@@ -407,14 +407,12 @@ if uploaded_file is not None:
     st.success("✅ Đang dùng file tải lên.")
 else:
     import glob
-    # Tự động quét tìm tất cả các file .xlsx có trong thư mục GitHub
     found_files = glob.glob("*.xlsx")
-    
     if found_files:
-        excel_file_to_read = found_files[0] # Tự động lấy file Excel đầu tiên tìm thấy
+        excel_file_to_read = found_files[0]
         st.info(f"📂 Đang dùng file cố định: {excel_file_to_read}")
     else:
-        st.warning("👋 Không tìm thấy file Excel nào trong thư mục. Vui lòng kiểm tra lại.")
+        st.error("❌ Không tìm thấy file Excel nào trong thư mục GitHub!")
         st.stop()
 
     # Xử lý đọc file, chọn Sheet và gọi hàm chuẩn hóa dữ liệu
