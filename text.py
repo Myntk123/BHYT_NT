@@ -502,7 +502,7 @@ with tab_ks:
         col_chart1, col_chart2 = st.columns([1, 2])
         with col_chart1:
             st.markdown('<div class="chart-header">1. Tỷ lệ kết quả giám định</div>', unsafe_allow_html=True)
-            chart_data = df['TRANG_THAI_CUOI'].value_counts().reset_index()
+            chart_data = df['ĐÁNH GIÁ'].value_counts().reset_index()
             chart_data.columns = ['Trạng thái', 'Số lượng']
 
             # --- ĐOẠN ĐIỀU CHỈNH MÀU SẮC ---
