@@ -424,8 +424,15 @@ else:
 
 # 3. Đọc dữ liệu vào DataFrame
 try:
-    df = pd.read_excel(excel_file_to_read, sheet_name=selected_sheet)
-    st.success(f"Đã tải thành công {len(df):,} dòng dữ liệu!")
+    # Tự động lấy tên sheet đầu tiên trong file nếu chưa có biến selected_sheet
+    xl = pd.ExcelFile(excel_file_to_read)
+    sheet_names = xl.sheet_names
+    
+    # Nếu chưa cóselectbox chọn sheet ở phía trên, ta mặc định lấy sheet đầu tiên hoặc dùng biến có sẵn
+    sheet_to_use = selected_sheet if 'selected_sheet' in locals() else sheet_names[0]
+    
+    df = pd.read_excel(excel_file_to_read, sheet_name=sheet_to_use)
+    st.success(f"Đã tải thành công {len(df):,} dòng dữ liệu từ sheet '{sheet_to_use}'!")
 except Exception as e:
     st.error(f"Lỗi đọc dữ liệu: {e}")
     st.stop()
