@@ -456,16 +456,6 @@ if uploaded_file is not None:
         st.error(f"Lỗi file tải lên: {e}")
 
 # 2. TRƯỜNG HỢP: Chưa tải file, tự động lấy file từ đường dẫn cố định
-elif os.path.exists(FILE_PATH):
-    try:
-        df_raw = pd.read_excel(FILE_PATH)
-        df, info = process_dataframe(df_raw)
-        st.sidebar.info(f"📁 Đang dùng file mặc định:\n{os.path.basename(FILE_PATH)}")
-    except Exception as e:
-        st.error(f"Lỗi đọc file mặc định: {e}")
-else:
-    st.info("👋 Vui lòng tải file lên hoặc kiểm tra lại đường dẫn file mặc định.")
-    st.stop()
 # ==============================================================================
 # 4. TAB CẤP 1 (NAVIGATION BAR)
 # ==============================================================================
