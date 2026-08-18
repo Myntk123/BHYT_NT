@@ -402,6 +402,13 @@ with st.sidebar.expander("⚙️ Cấu hình file & Chọn Sheet", expanded=Fals
     # Đường dẫn file mặc định của bạn
     DEFAULT_FILENAME = "95078 DLBD 79A HD_Kieu My.xlsx"
 
+st.sidebar.markdown("### ⚙️ Nhập dữ liệu")
+uploaded_file = st.sidebar.file_uploader("Tải lên file Excel (Tùy chọn)", type=['xlsx', 'xls', 'csv'])
+
+df = None
+excel_file_to_read = None
+
+# 2. Kiểm tra nguồn file (Ưu tiên file user tải lên, nếu không có thì lấy file cố định trên GitHub)
 if uploaded_file is not None:
     excel_file_to_read = uploaded_file
     st.success("✅ Đang dùng file tải lên.")
@@ -412,41 +419,23 @@ else:
         excel_file_to_read = found_files[0]
         st.info(f"📂 Đang dùng file cố định: {excel_file_to_read}")
     else:
-        st.error("❌ Không tìm thấy file Excel nào trong thư mục GitHub!")
+        st.error("❌ Không tìm thấy file Excel nào trong thư mục!")
         st.stop()
 
-    # Xử lý đọc file, chọn Sheet và gọi hàm chuẩn hóa dữ liệu
-    try:
-        if str(excel_file_to_read).endswith(('.xlsx', '.xls')) or hasattr(excel_file_to_read, 'read'):
-            xls = pd.ExcelFile(excel_file_to_read)
-            sheet_names = xls.sheet_names
+# 3. Đọc dữ liệu vào DataFrame
+try:
+    df = pd.read_excel(excel_file_to_read, sheet_name=selected_sheet)
+    st.success(f"Đã tải thành công {len(df):,} dòng dữ liệu!")
+except Exception as e:
+    st.error(f"Lỗi đọc dữ liệu: {e}")
+    st.stop()
 
-            selected_sheet = st.selectbox("📋 Chọn Sheet cần giám định:", sheet_names, index=0)
-            df_raw = pd.read_excel(excel_file_to_read, sheet_name=selected_sheet)
-        else:
-            df_raw = pd.read_csv(excel_file_to_read)
-
-        df, info = process_dataframe(df_raw)
-
-        if df is None:
-            st.error(f"❌ {info}")
-            st.stop()
-
-        st.success(f"Đã tải thành công {len(df):,} dòng dữ liệu!")
-
-    except Exception as e:
-        st.error(f"❌ Lỗi đọc file hoặc chọn sheet: {e}")
-        st.stop()
-# ==============================================================================
-# 3. GIAO DIỆN CHÍNH
-# ==============================================================================
-st.sidebar.markdown("### ⚙️ Nhập dữ liệu")
-uploaded_file = st.sidebar.file_uploader("Tải lên file Excel (Tùy chọn)", type=['xlsx', 'xls', 'csv'])
-
-df = None
-info = None
-FILE_PATH = r"W:\WEB\95078 DLBD 79aHD_Kieu My.xlsx"
-
+# ==========================================
+# 4. GIAO DIỆN CHÍNH (Các bảng, biểu đồ, bộ lọc của bạn tiếp tục ở đây)
+# ==========================================
+if df is not None:
+    # Viết tiếp các chức năng chính của bạn tại đây
+    st.dataframe(df)
 # 1. TRƯỜNG HỢP: Người dùng đã tải file lên
 if uploaded_file is not None:
     try:
